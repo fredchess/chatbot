@@ -39,35 +39,22 @@ def home():
 async def chat(request: Request, model: MessageSchema):
     try:
         token = os.environ.get("OPENAI")
+        openai.api_key = token
 
         model.messages.insert(0, { 'role': 'system', 'content': initial_prompt })
+        
+        ans = get_completion(model)
 
-        datas = {
-            'model': "gpt-3.5-turbo",
-            'messages': jsonable_encoder(model.messages)
-        }
-
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {token}'
-        }
-
-        response = requests.post("https://api.openai.com/v1/chat/completions", json=datas, headers=headers)
-
-        if response.status_code == 200:
-            ans = response.json()
-            return { 'message': ans['choices'][0]['message']['content'] }
-        else:
-            raise HTTPException(response.status_code, detail=response.status_code)
+        return { 'message': ans }
 
     except Exception as e:
-        raise HTTPException(response.status_code, detail=response.status_code)
+        raise HTTPException(500, detail="An error occured")
     
 def get_completion(model: MessageSchema):
     response = openai.ChatCompletion.create(
         model= 'gpt-3.5-turbo',
         temperature = 0,
-        messages = jsonable_encoder(model.messages)
+        messages = jsonable_encoder(model.messages),
     )
 
     return response.choices[0].message["content"]
