@@ -1,0 +1,13 @@
+{
+    "intents": [
+        {
+            "tag": "greatings",
+            "patterns": [
+                "salut", "bonjour", "comment tu vas?", ""
+            ],
+            "responses": [
+
+            ]
+        }
+    ] 
+}

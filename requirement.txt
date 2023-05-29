@@ -2,3 +2,6 @@ fastapi
 uvicorn[standard]
 requests
 openai
+numpy
+nltk
+tensorflow

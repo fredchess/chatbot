@@ -1,0 +1,2 @@
+- Rassembler un tas de questions potentielles
+- Produire un tas de reponses potentielles
